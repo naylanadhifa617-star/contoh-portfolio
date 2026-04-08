@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Loader2, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,19 +19,19 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@developer.com',
+    value: 'naylanadhifa617@gmail.com',
     href: 'mailto:hello@developer.com',
   },
   {
-    icon: Phone,
-    label: 'Telepon',
-    value: '+62 812 3456 7890',
+    icon: Instagram,
+    label: 'instagram',
+    value: '@naylandhf.__',
     href: 'tel:+6281234567890',
   },
   {
     icon: MapPin,
     label: 'Lokasi',
-    value: 'Jakarta, Indonesia',
+    value: 'Banda Aceh, indonesia',
     href: '#',
   },
 ];
@@ -43,11 +43,11 @@ export default function ContactSection() {
     subject: '',
     message: '',
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
@@ -55,16 +55,16 @@ export default function ContactSection() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
 
     const result = contactSchema.safeParse(formData);
     if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
+      const fieldErrors = {};
       result.error.errors.forEach((err) => {
         if (err.path[0]) {
-          fieldErrors[err.path[0] as string] = err.message;
+          fieldErrors[err.path[0]] = err.message;
         }
       });
       setErrors(fieldErrors);
@@ -74,7 +74,7 @@ export default function ContactSection() {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      const { error } = await supabase.functions.invoke('send-contact-email', {
         body: formData,
       });
 
@@ -82,15 +82,14 @@ export default function ContactSection() {
 
       toast({
         title: 'Pesan Terkirim! ✨',
-        description: 'Terima kasih telah menghubungi saya. Saya akan membalas secepatnya.',
+        description: 'Terima kasih telah menghubungi saya.',
       });
 
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error: any) {
-      console.error('Error sending email:', error);
+    } catch (error) {
       toast({
         title: 'Gagal Mengirim',
-        description: 'Terjadi kesalahan. Silakan coba lagi atau hubungi langsung via email.',
+        description: 'Terjadi kesalahan, coba lagi ya.',
         variant: 'destructive',
       });
     } finally {
@@ -99,39 +98,36 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32">
+    <section id="contact" className="py-20 md:py-32 bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <div className="container mx-auto px-4">
+
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary font-medium mb-2 block">Kontak</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
+          <span className="text-blue-500 font-medium mb-2 block">Kontak</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-blue-900">
             Hubungi Saya
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-blue-400 mx-auto rounded-full" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
+
+          {/* INFO */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
             className="space-y-8"
           >
             <div>
-              <h3 className="font-display text-2xl font-bold mb-4">
+              <h3 className="text-2xl font-bold mb-4 text-blue-900">
                 Mari Berkolaborasi!
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Punya project menarik atau ingin berkolaborasi? Jangan ragu untuk 
-                menghubungi saya. Saya selalu terbuka untuk diskusi tentang project 
-                baru, ide kreatif, atau kesempatan untuk menjadi bagian dari visi Anda.
+              <p className="text-blue-700 leading-relaxed">
+                Punya project menarik atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.
               </p>
             </div>
 
@@ -142,105 +138,61 @@ export default function ContactSection() {
                   href={info.href}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-4 p-4 glass rounded-xl hover:shadow-card-hover transition-all group"
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center gap-4 p-4 bg-white/70 rounded-xl shadow hover:shadow-lg transition group"
                 >
-                  <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <info.icon className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition">
+                    <info.icon className="h-5 w-5 text-blue-500" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">{info.label}</p>
-                    <p className="font-medium">{info.value}</p>
+                    <p className="text-sm text-blue-500">{info.label}</p>
+                    <p className="font-medium text-blue-900">{info.value}</p>
                   </div>
                 </motion.a>
               ))}
             </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* FORM */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6 p-6 glass rounded-2xl shadow-card">
+            <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white/70 rounded-2xl shadow-xl">
+
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
-                    Nama
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Nama Anda"
-                    className={errors.name ? 'border-destructive' : ''}
-                  />
-                  {errors.name && (
-                    <p className="text-xs text-destructive">{errors.name}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="email@example.com"
-                    className={errors.email ? 'border-destructive' : ''}
-                  />
-                  {errors.email && (
-                    <p className="text-xs text-destructive">{errors.email}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">
-                  Subjek
-                </label>
                 <Input
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
+                  name="name"
+                  placeholder="Nama Anda"
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder="Subjek pesan"
-                  className={errors.subject ? 'border-destructive' : ''}
                 />
-                {errors.subject && (
-                  <p className="text-xs text-destructive">{errors.subject}</p>
-                )}
+                <Input
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">
-                  Pesan
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tuliskan pesan Anda..."
-                  rows={5}
-                  className={errors.message ? 'border-destructive' : ''}
-                />
-                {errors.message && (
-                  <p className="text-xs text-destructive">{errors.message}</p>
-                )}
-              </div>
+              <Input
+                name="subject"
+                placeholder="Subjek"
+                value={formData.subject}
+                onChange={handleChange}
+              />
+
+              <Textarea
+                name="message"
+                placeholder="Pesan..."
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+              />
 
               <Button
                 type="submit"
-                size="lg"
-                className="w-full rounded-full"
+                className="w-full rounded-full bg-blue-400 hover:bg-blue-500 text-white"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -255,8 +207,10 @@ export default function ContactSection() {
                   </>
                 )}
               </Button>
+
             </form>
           </motion.div>
+
         </div>
       </div>
     </section>

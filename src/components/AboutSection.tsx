@@ -31,26 +31,20 @@ const ACCORDION_DATA = [
   },
 ];
 
-export default function AboutSection({ isDark }) {
+export default function AboutSection() {
   const [expanded, setExpanded] = useState(null);
 
   return (
     <section
       id="about"
-      className={`relative py-24 overflow-hidden ${
-        isDark
-          ? 'bg-gradient-to-br from-[#1e3a8a] via-[#3b82f6] to-[#93c5fd]'
-          : 'bg-gradient-to-br from-[#f8fbff] via-[#e0f2fe] to-[#dbeafe]'
-      }`}
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-blue-100"
     >
-      {/* BACKGROUND ORNAMEN */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-10 left-10 w-40 h-40 bg-blue-300 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-52 h-52 bg-indigo-300 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-52 h-52 bg-blue-300 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,11 +55,7 @@ export default function AboutSection({ isDark }) {
             ᯓ 𝖌𝖊𝖙 𝖙𝖔 𝖐𝖓𝖔𝖜 𝖒𝖔𝖗𝖊 𝖈𝖑𝖔𝖘𝖊𝖑𝖞 ★
           </span>
 
-          <h2
-            className={`text-4xl md:text-5xl font-bold mb-4 ${
-              isDark ? 'text-white' : 'text-blue-900'
-            }`}
-          >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
             𝕒𝕓𝕠𝕦𝕥 𝕞𝕖 ۶ৎ
           </h2>
 
@@ -76,10 +66,8 @@ export default function AboutSection({ isDark }) {
           {/* FOTO */}
           <div className="space-y-8">
             <div className="relative group mx-auto w-fit">
-              {/* GLOW */}
-              <div className="absolute -inset-3 rounded-3xl blur-2xl opacity-70 bg-gradient-to-r from-blue-300 via-sky-300 to-indigo-300"></div>
+              <div className="absolute -inset-3 rounded-3xl blur-2xl opacity-70 bg-gradient-to-r from-blue-300 via-blue-300 to-blue-400"></div>
 
-              {/* FRAME */}
               <div className="relative p-[4px] rounded-3xl bg-white/40 shadow-xl">
                 <div className="w-72 h-[480px] md:w-80 md:h-[520px] rounded-3xl overflow-hidden">
                   <img
@@ -91,13 +79,12 @@ export default function AboutSection({ isDark }) {
               </div>
             </div>
 
-            {/* STATS */}
             <div className="grid grid-cols-2 gap-4">
               {STATS.map((stat) => (
                 <motion.div
                   key={stat.label}
                   whileHover={{ scale: 1.05 }}
-                  className="p-4 rounded-xl text-center bg-white/60 text-blue-900 shadow-lg backdrop-blur-md"
+                  className="p-4 rounded-xl text-center bg-white/70 text-blue-900 shadow-lg"
                 >
                   <stat.icon className="h-6 w-6 mx-auto mb-2" />
                   <p className="text-2xl font-bold">{stat.value}</p>
@@ -108,7 +95,7 @@ export default function AboutSection({ isDark }) {
           </div>
 
           {/* TEXT */}
-          <div className="space-y-6 p-6 rounded-2xl bg-white/40 backdrop-blur-md shadow-xl">
+          <div className="space-y-6 p-6 rounded-2xl bg-white/60 shadow-xl">
             <h3 className="text-2xl md:text-3xl font-bold text-blue-900">
               𝕨𝕙𝕠 𝕚 𝕒'𝕞?
             </h3>
@@ -117,18 +104,14 @@ export default function AboutSection({ isDark }) {
               𝐇𝐞𝐥𝐥𝐨! 𝐈'𝐦 𝐍𝐚𝐲𝐥𝐚 𝐍𝐚𝐝𝐡𝐢𝐟𝐚. 𝐈 𝐚𝐦 𝐚 𝐬𝐭𝐮𝐝𝐞𝐧𝐭 𝐚𝐭 𝐌𝐀𝐍 𝟏 𝐁𝐚𝐧𝐝𝐚 𝐀𝐜𝐞𝐡..
             </p>
 
-            {/* ACCORDION */}
             <div className="space-y-3">
               {ACCORDION_DATA.map((item) => (
-                <div
-                  key={item.id}
-                  className="rounded-xl overflow-hidden shadow-md"
-                >
+                <div key={item.id} className="rounded-xl overflow-hidden shadow-md">
                   <button
                     onClick={() =>
                       setExpanded(expanded === item.id ? null : item.id)
                     }
-                    className="w-full flex justify-between items-center p-4 bg-white/70 text-blue-900 hover:bg-white transition"
+                    className="w-full flex justify-between items-center p-4 bg-white/80 text-blue-900 hover:bg-white transition"
                   >
                     <div className="flex items-center gap-2">
                       {item.icon}
