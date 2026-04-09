@@ -1,27 +1,46 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import { useState, useEffect } from "react";
 
-const queryClient = new QueryClient();
+// 🔥 IMPORT COMPONENTS (SUDAH FIX PATH)
+import LoadingScreen from "./components/LoadingScreen";
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import AboutSection from "./components/AboutSection";
+import ProjectsSection from "./components/ProjectsSection";
+import ContactSection from "./components/ContactSection";
+import Footer from "./components/Footer";
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+export default function App() {
 
-export default App;
+  // 🔄 STATE LOADING
+  const [loading, setLoading] = useState(true);
+
+  // ⏳ EFFECT (LOADING 2 DETIK)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 🟦 TAMPILKAN LOADING DULU
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  // 🌐 WEBSITE UTAMA
+  return (
+    <div className="bg-white text-gray-900">
+      <Navbar />
+
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <ProjectsSection />
+        <ContactSection />
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
