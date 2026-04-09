@@ -5,7 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { useEffect, useState } from 'react';
 
 const projects = [
@@ -16,8 +16,8 @@ const projects = [
     tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
     image: '🛒',
     color: 'from-blue-200 to-blue-400',
-    github: '#',
-    demo: '#',
+    github: 'https://github.com',
+    demo: 'https://example.com',
   },
   {
     title: 'Learning Management System',

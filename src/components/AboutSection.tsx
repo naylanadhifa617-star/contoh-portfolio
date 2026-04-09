@@ -113,6 +113,23 @@ export default function AboutSection() {
                       </span>
                     </div>
 
+                    <div className="mt-6">
+                 <h4 className="text-xl font-bold text-blue-900 mb-3">
+                      Skills
+                  </h4>
+
+                 <div className="flex flex-wrap gap-2">
+                  {["HTML", "CSS", "JavaScript", "React", "Tailwind"].map((skill) => (
+                   <span
+                   key={skill}
+                  className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+      >
+                   {skill}
+                </span>
+                ))}
+           </div>
+       </div>
+
                     <ChevronDown
                       className={`transition ${
                         expanded === item.id ? 'rotate-180' : ''
