@@ -135,6 +135,8 @@ export default function ContactSection() {
               <a
                 key={info.label}
                 href={info.href}
+                 target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-4 p-4 bg-white rounded-xl shadow"
               >
                 <info.icon className="h-5 w-5 text-blue-500" />

@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// ✅ FIX IMPORT (ANTI MERAH)
 import { Button } from './ui/button';
 
 interface NavbarProps {
@@ -15,39 +13,23 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const navItems = [
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' },
   ];
 
   const scrollToSection = useCallback((href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const top = (element as HTMLElement).offsetTop - offset;
-
+    const el = document.querySelector(href);
+    if (el) {
       window.scrollTo({
-        top,
+        top: (el as HTMLElement).offsetTop - 80,
         behavior: 'smooth',
       });
     }
@@ -58,83 +40,63 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-50 transition-all ${
         isScrolled
-          ? 'py-3 bg-white/70 backdrop-blur-md shadow-lg dark:bg-black/70'
-          : 'py-5 bg-transparent'
+          ? 'bg-white/80 backdrop-blur-md shadow-md border-b border-blue-100 py-3'
+          : 'bg-transparent py-5'
       }`}
     >
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-6 flex justify-between items-center">
 
-          {/* LOGO */}
-          <motion.a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#home');
-            }}
-            className="text-2xl font-bold cursor-pointer"
-            whileHover={{ scale: 1.05 }}
+        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+          nayelll
+        </h1>
+
+        <div className="hidden md:flex items-center gap-6">
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.href);
+              }}
+              className="cursor-pointer text-blue-800 hover:text-blue-500 text-sm transition"
+            >
+              {item.label}
+            </a>
+          ))}
+
+          <Button className="bg-blue-100 text-blue-700" onClick={toggleTheme}>
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
+        </div>
+
+        <div className="md:hidden flex gap-2">
+          <Button className="bg-blue-100 text-blue-700" onClick={toggleTheme}>
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
+
+          <Button
+            className="bg-blue-100 text-blue-700"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              nayelll
-            </span>
-          </motion.a>
-
-          {/* DESKTOP */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.href);
-                }}
-                className="text-sm text-gray-600 hover:text-blue-500 transition"
-              >
-                {item.label}
-              </a>
-            ))}
-
-            <Button onClick={toggleTheme}>
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-          </div>
-
-          {/* MOBILE */}
-          <div className="md:hidden flex gap-2">
-            <Button onClick={toggleTheme}>
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-
-            <Button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X /> : <Menu />}
-            </Button>
-          </div>
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </Button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white shadow"
-          >
-            <div className="flex flex-col p-4 gap-4">
+          <motion.div className="md:hidden bg-white border-t border-blue-100">
+            <div className="flex flex-col p-4 gap-3">
               {navItems.map((item) => (
                 <a
                   key={item.label}
-                  href={item.href}
                   onClick={(e) => {
                     e.preventDefault();
                     scrollToSection(item.href);
                   }}
-                  className="text-gray-700 hover:text-blue-500"
+                  className="text-blue-800 hover:text-blue-500"
                 >
                   {item.label}
                 </a>

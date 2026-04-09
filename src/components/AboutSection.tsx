@@ -32,70 +32,61 @@ const ACCORDION_DATA = [
 ];
 
 export default function AboutSection() {
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <section
       id="about"
-      className="relative py-24 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-blue-100"
+      className="py-24 bg-gradient-to-br from-white via-blue-50 to-blue-100"
     >
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-10 left-10 w-40 h-40 bg-blue-300 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-52 h-52 bg-blue-300 rounded-full blur-3xl"></div>
-      </div>
+      <div className="container mx-auto px-4">
 
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <span className="flex items-center justify-center gap-2 text-blue-500 font-bold tracking-widest uppercase text-sm mb-3">
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <span className="flex justify-center gap-2 text-blue-500 font-bold text-sm mb-3">
             <Sparkles size={16} />
             ᯓ 𝖌𝖊𝖙 𝖙𝖔 𝖐𝖓𝖔𝖜 𝖒𝖔𝖗𝖊 𝖈𝖑𝖔𝖘𝖊𝖑𝖞 ★
           </span>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
+          <h2 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
             𝒂𝒃𝒐𝒖𝒕 𝒎𝒆 ۶ৎ
           </h2>
 
           <div className="w-24 h-1 bg-blue-400 mx-auto rounded-full" />
-        </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+
           {/* FOTO */}
           <div className="space-y-8">
-            <div className="relative group mx-auto w-fit">
-              <div className="absolute -inset-3 rounded-3xl blur-2xl opacity-70 bg-gradient-to-r from-blue-300 via-blue-300 to-blue-400"></div>
-
-              <div className="relative p-[4px] rounded-3xl bg-white/40 shadow-xl">
-                <div className="w-72 h-[480px] md:w-80 md:h-[520px] rounded-3xl overflow-hidden">
-                  <img
-                    src="/nayla pto (6).jpg"
-                    alt="foto nayla"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+            <div className="mx-auto w-72 h-[480px] rounded-3xl overflow-hidden shadow-lg border border-blue-100">
+              <img
+                src="/nayla pto (6).jpg"
+                alt="foto nayla"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               {STATS.map((stat) => (
-                <motion.div
+                <div
                   key={stat.label}
-                  whileHover={{ scale: 1.05 }}
-                  className="p-4 rounded-xl text-center bg-white/70 text-blue-900 shadow-lg"
+                  className="p-4 rounded-xl text-center bg-white border border-blue-100 shadow-md"
                 >
-                  <stat.icon className="h-6 w-6 mx-auto mb-2" />
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                  <p className="text-sm">{stat.label}</p>
-                </motion.div>
+                  <stat.icon className="h-6 w-6 mx-auto mb-2 text-blue-500" />
+                  <p className="text-2xl font-bold text-blue-900">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-blue-600">
+                    {stat.label}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
 
           {/* TEXT */}
-          <div className="space-y-6 p-6 rounded-2xl bg-white/60 shadow-xl">
+          <div className="space-y-6 p-6 rounded-2xl bg-white border border-blue-100 shadow-xl">
             <h3 className="text-2xl md:text-3xl font-bold text-blue-900">
               𝗐𝗁𝗈 𝗂 𝖺'𝗆??
             </h3>
@@ -104,18 +95,22 @@ export default function AboutSection() {
               𝐇𝐞𝐥𝐥𝐨! 𝐈'𝐦 𝐍𝐚𝐲𝐥𝐚 𝐍𝐚𝐝𝐡𝐢𝐟𝐚. 𝐈 𝐚𝐦 𝐚 𝐬𝐭𝐮𝐝𝐞𝐧𝐭 𝐚𝐭 𝐌𝐀𝐍 𝟏 𝐁𝐚𝐧𝐝𝐚 𝐀𝐜𝐞𝐡..
             </p>
 
+            {/* ACCORDION */}
             <div className="space-y-3">
               {ACCORDION_DATA.map((item) => (
-                <div key={item.id} className="rounded-xl overflow-hidden shadow-md">
+                <div key={item.id} className="rounded-xl overflow-hidden shadow-md border border-blue-100">
+
                   <button
                     onClick={() =>
                       setExpanded(expanded === item.id ? null : item.id)
                     }
-                    className="w-full flex justify-between items-center p-4 bg-white/80 text-blue-900 hover:bg-white transition"
+                    className="w-full flex justify-between items-center p-4 bg-white text-blue-900 hover:bg-blue-50 transition"
                   >
                     <div className="flex items-center gap-2">
                       {item.icon}
-                      <span className="font-semibold">{item.title}</span>
+                      <span className="font-semibold">
+                        {item.title}
+                      </span>
                     </div>
 
                     <ChevronDown
@@ -138,10 +133,13 @@ export default function AboutSection() {
                       </motion.div>
                     )}
                   </AnimatePresence>
+
                 </div>
               ))}
             </div>
+
           </div>
+
         </div>
       </div>
     </section>
