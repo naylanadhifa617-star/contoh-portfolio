@@ -7,7 +7,7 @@ const skills = {
   ],
   photography: [
     { name: 'Fotografi', level: 92 },
-    { name: 'Editing Foto', level: 88 },
+    { name: 'Editing Foto', level: 90 },
   ],
   creative: [
     { name: 'Content Creation', level: 90 },
@@ -54,7 +54,7 @@ export default function SkillsSection() {
           className="text-center mb-16"
         >
           <span className="text-blue-400 font-medium mb-2 block">Keahlian</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-800 mb-4">
+          <h2 className="font-display text-2xl md:text-5xl font-bold text-gray-800 mb-4">
             𝒔𝒌𝒊𝒍𝒍𝒔 & 𝒌𝒓𝒆𝒂𝒕𝒊𝒗𝒊𝒕𝒂𝒔
           </h2>
           <div className="w-20 h-1 bg-blue-300 mx-auto rounded-full" />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // 🔥 IMPORT COMPONENTS (SUDAH FIX PATH)
-import LoadingScreen from "./components/LoadingScreen";
+import LoadingScreen from "./components/loadingScreen.tsx";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
@@ -31,7 +31,7 @@ export default function App() {
   // 🌐 WEBSITE UTAMA
   return (
     <div className="bg-white text-gray-900">
-      <Navbar />
+      
 
       <main>
         <HeroSection />

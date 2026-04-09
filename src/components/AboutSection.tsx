@@ -48,7 +48,7 @@ export default function AboutSection() {
             ᯓ 𝖌𝖊𝖙 𝖙𝖔 𝖐𝖓𝖔𝖜 𝖒𝖔𝖗𝖊 𝖈𝖑𝖔𝖘𝖊𝖑𝖞 ★
           </span>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
+          <h2 className="text-2xl md:text-5xl font-bold text-blue-900 mb-4">
             𝒂𝒃𝒐𝒖𝒕 𝒎𝒆 ۶ৎ
           </h2>
 

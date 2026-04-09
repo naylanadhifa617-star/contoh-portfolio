@@ -82,7 +82,7 @@ export default function ProjectsSection() {
             Portfolio
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 text-blue-900">
-            Projects &amp; Karya
+            𝒑𝒓𝒐𝒋𝒆𝒄𝒕𝒔 𝒂𝒏𝒅 𝒘𝒐𝒓𝒌𝒔
           </h2>
           <div className="w-20 h-1 bg-blue-400 mx-auto rounded-full" />
         </div>

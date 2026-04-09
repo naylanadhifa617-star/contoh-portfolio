@@ -121,8 +121,8 @@ export default function ContactSection() {
           className="text-center mb-16"
         >
           <span className="text-blue-500 font-medium mb-2 block">Kontak</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-blue-900">
-            Hubungi Saya
+          <h2 className="text-2xl md:text-5xl font-bold mb-4 text-blue-900">
+            𝒄𝒐𝒏𝒕𝒂𝒄𝒕 𝒎𝒆
           </h2>
           <div className="w-20 h-1 bg-blue-400 mx-auto rounded-full" />
         </motion.div>
