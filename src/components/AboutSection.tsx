@@ -25,7 +25,7 @@ const ACCORDION_DATA = [
   {
     id: 'vision',
     icon: <Target className="w-5 h-5" />,
-    title: "𝖛𝖎𝖘𝖎𝖔𝖓 & 𝖎𝖉𝖊𝖆𝖑𝖘",
+    title: "𝔳𝔦𝔰𝔦𝔬𝔫  & 𝔦𝔡𝔢𝔞𝔩𝔰",
     content:
       "𝖨 𝗁𝗈𝗉𝖾 𝖨 𝖼𝖺𝗇 𝖼𝗈𝗇𝗍𝗂𝗇𝗎𝖾 𝗍𝗈 𝖽𝖾𝗏𝖾𝗅𝗈𝗉 𝗆𝗒𝗌𝖾𝗅𝖿 𝗂𝗇 𝗏𝖺𝗋𝗂𝗈𝗎𝗌 𝗐𝖺𝗒𝗌, 𝖿𝗋𝗈𝗆 𝖺𝗇𝗒 𝖺𝗌𝗉𝖾𝖼𝗍.",
   },
@@ -56,7 +56,7 @@ export default function AboutSection() {
           </span>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
-            𝕒𝕓𝕠𝕦𝕥 𝕞𝕖 ۶ৎ
+            𝒂𝒃𝒐𝒖𝒕 𝒎𝒆 ۶ৎ
           </h2>
 
           <div className="w-24 h-1 bg-blue-400 mx-auto rounded-full" />
@@ -97,7 +97,7 @@ export default function AboutSection() {
           {/* TEXT */}
           <div className="space-y-6 p-6 rounded-2xl bg-white/60 shadow-xl">
             <h3 className="text-2xl md:text-3xl font-bold text-blue-900">
-              𝕨𝕙𝕠 𝕚 𝕒'𝕞?
+              𝗐𝗁𝗈 𝗂 𝖺'𝗆??
             </h3>
 
             <p className="text-lg text-blue-800">

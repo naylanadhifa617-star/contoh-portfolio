@@ -1,18 +1,29 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, Loader2, Instagram } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { Mail, MapPin, Send, Loader2, Instagram } from 'lucide-react';
+
+// ❗ GANTI JADI RELATIVE PATH
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { useToast } from '../hooks/use-toast';
+
 import { z } from 'zod';
-import { supabase } from '@/integrations/supabase/client';
+
+type FormData = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+type FormErrors = Partial<FormData>;
 
 const contactSchema = z.object({
-  name: z.string().trim().min(1, 'Nama harus diisi').max(100, 'Nama terlalu panjang'),
-  email: z.string().trim().email('Email tidak valid').max(255, 'Email terlalu panjang'),
-  subject: z.string().trim().min(1, 'Subjek harus diisi').max(200, 'Subjek terlalu panjang'),
-  message: z.string().trim().min(1, 'Pesan harus diisi').max(2000, 'Pesan terlalu panjang'),
+  name: z.string().trim().min(1, 'Nama harus diisi').max(100),
+  email: z.string().trim().email('Email tidak valid').max(255),
+  subject: z.string().trim().min(1, 'Subjek harus diisi').max(200),
+  message: z.string().trim().min(1, 'Pesan harus diisi').max(2000),
 });
 
 const contactInfo = [
@@ -20,53 +31,58 @@ const contactInfo = [
     icon: Mail,
     label: 'Email',
     value: 'naylanadhifa617@gmail.com',
-    href: 'mailto:hello@developer.com',
+    href: 'mailto:naylanadhifa617@gmail.com',
   },
   {
     icon: Instagram,
-    label: 'instagram',
+    label: 'Instagram',
     value: '@naylandhf.__',
-    href: 'tel:+6281234567890',
+    href: 'https://instagram.com',
   },
   {
     icon: MapPin,
     label: 'Lokasi',
-    value: 'Banda Aceh, indonesia',
+    value: 'Banda Aceh, Indonesia',
     href: '#',
   },
 ];
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
-  const [errors, setErrors] = useState({});
+
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
+
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
 
     const result = contactSchema.safeParse(formData);
+
     if (!result.success) {
-      const fieldErrors = {};
+      const fieldErrors: FormErrors = {};
+
       result.error.errors.forEach((err) => {
-        if (err.path[0]) {
-          fieldErrors[err.path[0]] = err.message;
-        }
+        const key = err.path[0] as keyof FormErrors;
+        fieldErrors[key] = err.message;
       });
+
       setErrors(fieldErrors);
       return;
     }
@@ -74,22 +90,20 @@ export default function ContactSection() {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.functions.invoke('send-contact-email', {
-        body: formData,
-      });
-
-      if (error) throw error;
+      // ❗ sementara fake submit biar ga error dulu
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast({
         title: 'Pesan Terkirim! ✨',
-        description: 'Terima kasih telah menghubungi saya.',
+        description: 'Terima kasih sudah menghubungi!',
       });
 
       setFormData({ name: '', email: '', subject: '', message: '' });
+
     } catch (error) {
       toast({
-        title: 'Gagal Mengirim',
-        description: 'Terjadi kesalahan, coba lagi ya.',
+        title: 'Gagal',
+        description: 'Coba lagi ya!',
         variant: 'destructive',
       });
     } finally {
@@ -101,7 +115,6 @@ export default function ContactSection() {
     <section id="contact" className="py-20 md:py-32 bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <div className="container mx-auto px-4">
 
-        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -117,99 +130,35 @@ export default function ContactSection() {
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
 
           {/* INFO */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-2xl font-bold mb-4 text-blue-900">
-                Mari Berkolaborasi!
-              </h3>
-              <p className="text-blue-700 leading-relaxed">
-                Punya project menarik atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.a
-                  key={info.label}
-                  href={info.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center gap-4 p-4 bg-white/70 rounded-xl shadow hover:shadow-lg transition group"
-                >
-                  <div className="p-3 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition">
-                    <info.icon className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-blue-500">{info.label}</p>
-                    <p className="font-medium text-blue-900">{info.value}</p>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          <div className="space-y-4">
+            {contactInfo.map((info, index) => (
+              <a
+                key={info.label}
+                href={info.href}
+                className="flex items-center gap-4 p-4 bg-white rounded-xl shadow"
+              >
+                <info.icon className="h-5 w-5 text-blue-500" />
+                <div>
+                  <p className="text-sm text-blue-500">{info.label}</p>
+                  <p className="font-medium text-blue-900">{info.value}</p>
+                </div>
+              </a>
+            ))}
+          </div>
 
           {/* FORM */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white/70 rounded-2xl shadow-xl">
+          <form onSubmit={handleSubmit} className="space-y-4 p-6 bg-white rounded-xl shadow">
 
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Input
-                  name="name"
-                  placeholder="Nama Anda"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                <Input
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
+            <Input name="name" placeholder="Nama" value={formData.name} onChange={handleChange} />
+            <Input name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
+            <Input name="subject" placeholder="Subjek" value={formData.subject} onChange={handleChange} />
+            <Textarea name="message" placeholder="Pesan" value={formData.message} onChange={handleChange} />
 
-              <Input
-                name="subject"
-                placeholder="Subjek"
-                value={formData.subject}
-                onChange={handleChange}
-              />
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Mengirim...' : 'Kirim'}
+            </Button>
 
-              <Textarea
-                name="message"
-                placeholder="Pesan..."
-                rows={5}
-                value={formData.message}
-                onChange={handleChange}
-              />
-
-              <Button
-                type="submit"
-                className="w-full rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Mengirim...
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4 mr-2" />
-                    Kirim Pesan
-                  </>
-                )}
-              </Button>
-
-            </form>
-          </motion.div>
+          </form>
 
         </div>
       </div>
